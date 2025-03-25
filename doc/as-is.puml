@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+|Kunde|
+start
+:Vælger cupcake(s);
+|Kassemedarbejder|
+:Pakker cupcake(s);
+|Kasseapperat|
+:Beregner pris;
+ if (kontant) then (yes)
+      :Betaler kontant;
+    else (no)
+      :Betalingssystem;
+      |Betalingssystem|
+    :Betaling;
+endif
+|Kassemedarbejder|
+:Udleverer cupcake(s);
+|Kunde|
+:Kunde får kvittering/cupcakes;
+stop
+
+
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+|Kunde|
+start
+:Søger hjemmeside;
+|Web-applikation|
+:Tilføjer til kurv;
+:Kunde-info indtastes;
+|Kassemedarbejder|
+:Ordre kommer ind;
+:Ordre pakkes;
+|Kunde|
+:Henter ordre;
+|Betalingssystem|
+:Kunde betaler;
+|Kassemedarbejder|
+:Udleverer cupcake(s);
+|Kunde|
+:Kunde får kvittering/cupcakes;
+stop
+
+
+@enduml
