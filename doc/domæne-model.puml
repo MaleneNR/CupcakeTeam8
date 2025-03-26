@@ -2,21 +2,35 @@
 'https://plantuml.com/class-diagram
 !pragma layout smetana
 
-object Shop
-object Cupcake
-object Admin
-object Order
-object Costumer
+entity Shop
+
+entity Cupcake{
+topping
+bund
+}
+entity Admin{
+email
+password
+}
+entity Order
+
+entity Costumer{
+email
+password
+}
+entity OrderDetails{
+quantity
+}
+entity Cart
 
 
 
 
-Shop *-- Cupcake
-Shop *-- Admin
-Shop *-- Order
-Admin *-- Order
-Costumer *-- Order
-Order *-- Cupcake
 
-
+Shop "1" -- "M" Cupcake
+Cupcake "M" -- "1" Cart
+OrderDetails "1" -- "1" Cupcake
+OrderDetails "M" -- "1" Order
+Order "M" -- "1" Costumer
+Shop "1" -- "1" Admin
 @enduml
