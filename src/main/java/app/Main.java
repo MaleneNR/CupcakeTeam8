@@ -29,8 +29,7 @@ public class Main {
         app.get("/", ctx ->  ctx.render("index.html"));
 
         //TODO ændre html til homepage test
-        //todo
-        //todo 
+       
 
     }
 
