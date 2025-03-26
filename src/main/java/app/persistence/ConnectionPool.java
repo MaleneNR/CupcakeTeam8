@@ -108,5 +108,6 @@ public class ConnectionPool {
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
 
         return new HikariDataSource(config);
+        //test
     }
 }
