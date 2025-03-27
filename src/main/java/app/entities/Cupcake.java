@@ -1,30 +1,37 @@
 package app.entities;
 
 public class Cupcake {
-    private String topping;
-    private String bottom;
+    private Topping topping;
+    private Bottom bottom;
     private int price;
+    private int quantity;
 
+    public Cupcake(Topping topping, Bottom bottom, int price, int quantity) {
+        this.topping = topping;
+        this.bottom = bottom;
+        this.price = price;
+        this.quantity = quantity;
+    }
 
-    public Cupcake(String topping, String bottom, int price) {
+    public Cupcake(Topping topping, Bottom bottom, int price) {
         this.topping = topping;
         this.bottom = bottom;
         this.price = price;
     }
 
-    public String getTopping() {
+    public Topping getTopping() {
         return topping;
     }
 
-    public void setTopping(String topping) {
+    public void setTopping(Topping topping) {
         this.topping = topping;
     }
 
-    public String getBottom() {
+    public Bottom getBottom() {
         return bottom;
     }
 
-    public void setBottom(String bottom) {
+    public void setBottom(Bottom bottom) {
         this.bottom = bottom;
     }
 
