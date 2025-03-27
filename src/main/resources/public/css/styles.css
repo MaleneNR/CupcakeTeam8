@@ -1,0 +1,188 @@
+
+
+/***** index side ******/
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #fff;
+}
+
+header {
+    background: linear-gradient(to bottom, #e649fc, #fbe6fb);
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+}
+
+.logo img {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    max-width: 100%;
+    width: 70px;
+
+}
+
+.cupcakes-banner img {
+    height: 100px;
+    margin: 0 5px;
+}
+
+
+
+main {
+
+    justify-content: center;
+    padding: 40px;
+}
+
+.welcome {
+
+    background-color: #fdddfc;
+    text-align: center;
+    padding-top: 80px;
+    border-radius: 5px;
+    width: 80%;
+    padding-bottom: 140px;
+    margin-left: 10%;
+
+
+
+}
+
+.link{
+    color: #e649fc;
+    margin-left: 60%;
+
+
+}
+
+.login-bar{
+
+    background-color: #fdddfc;
+    height: 40px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    width: 80%;
+    margin-left: 10%;
+
+}
+
+
+.welcome h1 {
+    font-size: 2em;
+    color: #b43ca0;
+    margin-bottom: 10px;
+}
+
+.welcome p {
+    color: #a55aa7;
+    margin-bottom: 30px;
+}
+
+.selectors select {
+    margin: 0 10px;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button {
+    margin-top: 20px;
+    padding: 10px 25px;
+    background-color: #c057a1;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.cart{
+    cursor: pointer;
+
+}
+
+.kurv img{
+    max-width: 8%;
+    margin-left: 90%;
+    width: 40px;
+    height: 40px;
+
+}
+
+
+/***** login side ******/
+
+
+.login {
+
+    background-color: #fdddfc;
+    text-align: center;
+    padding-top: 80px;
+    border-radius: 5px;
+    width: 80%;
+    padding-bottom: 140px;
+    margin-left: 10%;
+
+    margin-top: 20px;
+
+}
+
+
+
+/***** kurv side ******/
+
+.button-order {
+    margin-left: 70%;
+    margin-top: 50%;
+    padding: 10px 25px;
+    background-color: #c057a1;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+
+.kurv-side {
+
+    background-color: #fdddfc;
+    text-align: center;
+    padding-top: 80px;
+    border-radius: 5px;
+    width: 80%;
+    padding-bottom: 20px;
+    margin-left: 10%;
+
+    margin-top: 20px;
+
+
+
+}
+
+/***** Admin side ******/
+
+.button-order-admin {
+    margin-left: 70%;
+
+
+    padding: 10px 25px;
+    background-color: #c057a1;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
