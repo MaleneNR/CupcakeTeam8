@@ -1,12 +1,27 @@
 package app.entities;
 
 public class Topping {
+    private int toppingId;
     private String topping;
     private int price;
+
+    public Topping(int toppingId, String topping, int price) {
+        this.toppingId = toppingId;
+        this.topping = topping;
+        this.price = price;
+    }
 
     public Topping(String topping, int price) {
         this.topping = topping;
         this.price = price;
+    }
+
+    public int getToppingId() {
+        return toppingId;
+    }
+
+    public void setToppingId(int toppingId) {
+        this.toppingId = toppingId;
     }
 
     public String getTopping() {
@@ -28,7 +43,8 @@ public class Topping {
     @Override
     public String toString() {
         return "Topping{" +
-                "topping='" + topping + '\'' +
+                "toppingId=" + toppingId +
+                ", topping='" + topping + '\'' +
                 ", price=" + price +
                 '}';
     }
