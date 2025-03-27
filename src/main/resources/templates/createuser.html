@@ -2,9 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create user</title>
+    <title>createuser</title>
+    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
 </head>
 <body>
+
+<header>
+    <div class="logo">
+        <img src="../public/images/olskerLogo.png" th:src="@{/images/olskerLogo.png}"/>
+    </div>
+    <div class="cupcakes-banner">
+        <img src="../public/images/cupcakelogo.png" th:src="@{/images/cupcakelogo.png}"/>
+
+    </div>
+
+
+</header>
+
+
+
+
+
+<div class="login">
+    <div class="form-container">
+        <form method="post">
+            <div>
+                <input class="button" type="navn" name="navn" placeholder="Navn" required />
+            </div>
+            <div>
+                <input class="button" type="email" name="email" placeholder="Email" required />
+            </div>
+            <div></div>
+            <input class="button" type="password" name="password" placeholder="Password" required />
+    </div>
+
+    <div class="button-group">
+        <button class="button" type="submit" formaction="/loginCustomer">Opret nu</button>
+    </div>
+    </form>
+</div>
+
+</div>
+
+
 
 </body>
 </html>
