@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+
+<header>
+    <img src="../public/images/olskerLogo.png" th:src="@{/images/olskerLogo.png}"/>
+    <img src="../public/images/cupcakelogo.png" th:src="@{/images/cupcakelogo.png}"/>
+
+
+</header>
+
+<div class="form-container">
+    <form method="post">
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+
+        <div class="button-group">
+            <button type="submit" formaction="/loginCustomer">Log in</button>
+        </div>
+    </form>
+</div>
+
+
+
+</body>
+</html>
