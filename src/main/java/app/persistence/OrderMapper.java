@@ -66,7 +66,7 @@ public class OrderMapper {
         return orderDetails;
     }
 
-    public static Boolean addOrder(Basket basket, ConnectionPool connectionPool) throws DatabaseException{
+    public static Boolean addOrder(Basket basket, ConnectionPool connectionPool) throws DatabaseException {
         int rowsAffected = 0;
         Boolean orderAdded = false;
         Order order = null;
@@ -75,38 +75,51 @@ public class OrderMapper {
         String customerEmail = basket.getUserEmail();
         LocalDate dateOfToday = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth());
 
-            String sql = "INSERT INTO orders (user_email, date) values (?,?) RETURNING order_id";
+        String sql = "INSERT INTO orders (user_email, date) values (?,?) RETURNING order_id";
 
-            try (
-                    Connection connection = connectionPool.getConnection();
-                    PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ) {
-                ps.setString(1, customerEmail);
-                //Dags dato i (YYYY-MM-DD)-format
-                ps.setDate(2, Date.valueOf(dateOfToday));
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        ) {
+            ps.setString(1, customerEmail);
+            //Dags dato i (YYYY-MM-DD)-format
+            ps.setDate(2, Date.valueOf(dateOfToday));
 
-                rowsAffected = ps.executeUpdate();
-                if (rowsAffected == 1) {
-                    try(ResultSet rs = ps.getGeneratedKeys()){
-                        if(rs.next()){
-                    int orderId = rs.getInt("order_id");
-                    //Basket konverteres til en ordre:)
-                    order = new Order(orderId, cupcakesInOrder,customerEmail,dateOfToday);
-                    orderAdded = true;
-                    }}
-                }else{
-                    throw new DatabaseException("Fejl ved indsætning af en ordre");
+            rowsAffected = ps.executeUpdate();
+            if (rowsAffected == 1) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        int orderId = rs.getInt("order_id");
+                        //Basket konverteres til en ordre:)
+                        order = new Order(orderId, cupcakesInOrder, customerEmail, dateOfToday);
+                        orderAdded = true;
+                    }
                 }
-            } catch (SQLException e) {
-                throw new DatabaseException("Fejl ved indsætning af en ordre", e.getMessage());
+            } else {
+                throw new DatabaseException("Fejl ved indsætning af en ordre");
             }
-
-            //Hvis ordren er tilføjet til order-tabellen, så tilføjer vi nu også orderdetajlerne til db
-            if (orderAdded == true){
-                orderAdded =  addOrderDetails(order,connectionPool);
-            }
-            return orderAdded;
+        } catch (SQLException e) {
+            throw new DatabaseException("Fejl ved indsætning af en ordre", e.getMessage());
         }
+
+        boolean orderDetailsAdded = false;
+        //Hvis ordren er tilføjet til order-tabellen, så tilføjer vi nu også orderdetajlerne til db
+        if (orderAdded == true) {
+            orderDetailsAdded = addOrderDetails(order, connectionPool);
+        }
+
+        if (orderDetailsAdded == false) {
+            //Hvis ikke at orderdetails blev opdateret (returnerer false), så sletter vi orderen fra order-tabellen igen
+            boolean delected = delete(order.getOrderId(), connectionPool);
+
+
+            if (delected == true) {
+                //Hvis den er slettet fra order-tabellen vil delected være true, og derfor sætter vi orderAdded tilbage til false, da den er slettet i db
+                orderAdded = false;
+            }
+        }
+        return orderAdded;
+    }
 
 
     private static Boolean addOrderDetails(Order order,ConnectionPool connectionPool) throws DatabaseException{
@@ -146,8 +159,9 @@ public class OrderMapper {
         return allOrderDetailsAdded;
     }
 
-    public static void delete(int orderId, ConnectionPool connectionPool) throws DatabaseException
+    public static boolean delete(int orderId, ConnectionPool connectionPool) throws DatabaseException
     {
+        boolean deleted = false;
         String sql = "delete from order where order_id = ?";
 
         try (
@@ -157,15 +171,19 @@ public class OrderMapper {
         {
             ps.setInt(1, orderId);
             int rowsAffected = ps.executeUpdate();
-            if (rowsAffected != 1)
+            if (rowsAffected == 1){
+                deleted = true;
+            }else
             {
                 throw new DatabaseException("Fejl i opdatering af en ordre");
             }
+
         }
         catch (SQLException e)
         {
             throw new DatabaseException("Fejl ved sletning af en ordre", e.getMessage());
         }
+        return deleted;
     }
 
     public static Order getOrderById(int orderId, ConnectionPool connectionPool) throws DatabaseException{
