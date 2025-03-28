@@ -1,9 +1,6 @@
 package app.persistence;
 
-import app.entities.Bottom;
-import app.entities.Cupcake;
-import app.entities.Order;
-import app.entities.Topping;
+import app.entities.*;
 import app.exceptions.DatabaseException;
 
 import java.sql.*;
@@ -13,7 +10,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class OrderMapper {
-
 
     public static List<Order> getAllOrders(ConnectionPool connectionPool) throws DatabaseException {
           List<Order> orderList = new ArrayList<>();
@@ -70,9 +66,84 @@ public class OrderMapper {
         return orderDetails;
     }
 
+    public static Boolean addOrder(Basket basket, ConnectionPool connectionPool) throws DatabaseException{
+        int rowsAffected = 0;
+        Boolean orderAdded = false;
+        Order order = null;
 
-    public static Order addOrder(){
-        return null;
+        List<Cupcake> cupcakesInOrder = basket.getBasket();
+        String customerEmail = basket.getUserEmail();
+        LocalDate dateOfToday = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth());
+
+            String sql = "INSERT INTO orders (user_email, date) values (?,?) RETURNING order_id";
+
+            try (
+                    Connection connection = connectionPool.getConnection();
+                    PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ) {
+                ps.setString(1, customerEmail);
+                //Dags dato i (YYYY-MM-DD)-format
+                ps.setDate(2, Date.valueOf(dateOfToday));
+
+                rowsAffected = ps.executeUpdate();
+                if (rowsAffected == 1) {
+                    try(ResultSet rs = ps.getGeneratedKeys()){
+                        if(rs.next()){
+                    int orderId = rs.getInt("order_id");
+                    //Basket konverteres til en ordre:)
+                    order = new Order(orderId, cupcakesInOrder,customerEmail,dateOfToday);
+                    orderAdded = true;
+                    }}
+                }else{
+                    throw new DatabaseException("Fejl ved indsætning af en ordre");
+                }
+            } catch (SQLException e) {
+                throw new DatabaseException("Fejl ved indsætning af en ordre", e.getMessage());
+            }
+
+            //Hvis ordren er tilføjet til order-tabellen, så tilføjer vi nu også orderdetajlerne til db
+            if (orderAdded == true){
+                orderAdded =  addOrderDetails(order,connectionPool);
+            }
+            return orderAdded;
+        }
+
+
+    private static Boolean addOrderDetails(Order order,ConnectionPool connectionPool) throws DatabaseException{
+        Boolean allOrderDetailsAdded = false;
+        int rowsAffected = 0;
+        List<Cupcake> cupcakes = order.getOrder();
+        //For hver cupcake i listen fra parameteren basket inserter vi en row i vores database
+        for(Cupcake c : cupcakes) {
+            Topping topping = c.getTopping();
+            Bottom bottom = c.getBottom();
+            int quantity = c.getQuantity();
+            int price = (bottom.getPrice() + topping.getPrice()) * quantity;
+
+            String sql = "INSERT INTO order_details (order_id, topping_id, bottom_id, total_price, quantity) values (?,?,?,?,?)";
+
+            try (
+                    Connection connection = connectionPool.getConnection();
+                    PreparedStatement ps = connection.prepareStatement(sql)
+            ) {
+                ps.setInt(1, order.getOrderId());
+                ps.setInt(2, topping.getToppingId());
+                ps.setInt(3, bottom.getBottomId());
+                ps.setInt(4, price);
+                ps.setInt(5, quantity);
+                rowsAffected += ps.executeUpdate();
+                if (rowsAffected == 0) {
+                    throw new DatabaseException("Fejl i indsætning af en ordredetail");
+                }
+            } catch (SQLException e) {
+                throw new DatabaseException("Fejl ved indsætning af en ordredetail", e.getMessage());
+            }
+        }
+        //Tjekker om rowsaffected har samme værdi som cupcakes.size()
+        if (rowsAffected == cupcakes.size()){
+            allOrderDetailsAdded = true;
+        }
+        return allOrderDetailsAdded;
     }
 
     public static void delete(int orderId, ConnectionPool connectionPool) throws DatabaseException

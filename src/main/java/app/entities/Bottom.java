@@ -16,6 +16,14 @@ public class Bottom {
         this.price = price;
     }
 
+    public int getBottomId() {
+        return bottomId;
+    }
+
+    public void setBottomId(int bottomId) {
+        this.bottomId = bottomId;
+    }
+
     public String getBottom() {
         return bottom;
     }
