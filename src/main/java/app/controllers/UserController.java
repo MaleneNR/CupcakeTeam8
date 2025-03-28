@@ -1,9 +1,12 @@
 package app.controllers;
 
+import app.entities.Bottom;
 import app.entities.Order;
+import app.entities.Topping;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
+import app.persistence.CupcakeMapper;
 import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -46,6 +49,18 @@ public class UserController{
         String password = ctx.formParam("password");
         try {
             User user = UserMapper.login(username, password, connectionPool);
+
+
+
+            List<Topping> toppingsList = CupcakeMapper.getAllToppings(connectionPool);//henter dropdown list fra db
+            ctx.attribute("toppingsList", toppingsList);
+
+            List<Bottom> bottomList = CupcakeMapper.getAllBottoms(connectionPool);
+            ctx.attribute("bottomList", bottomList);
+
+
+
+
             ctx.sessionAttribute("currentUser", user);
             ctx.render("index.html");
 
