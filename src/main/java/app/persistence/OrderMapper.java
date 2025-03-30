@@ -13,7 +13,7 @@ public class OrderMapper {
 
     public static List<Order> getAllOrders(ConnectionPool connectionPool) throws DatabaseException {
           List<Order> orderList = new ArrayList<>();
-            String sql = "select * from orders order by date";
+            String sql = "select * from orders";
 
             try (
                     Connection connection = connectionPool.getConnection();
@@ -26,7 +26,7 @@ public class OrderMapper {
                     int id = rsOrder.getInt("order_id");
                     String email = rsOrder.getString("user_email");
                     LocalDate date = rsOrder.getDate("date").toLocalDate();
-                    orderList.add(new Order(getAllCupcakesPerOrder(id, connectionPool),email,date));
+                    orderList.add(new Order(id,getAllCupcakesPerOrder(id, connectionPool),email,date));
                 }
             }
             catch (SQLException e)
@@ -37,7 +37,7 @@ public class OrderMapper {
         } //TODO: Der skal hentes alle ordre ind, og for hver ordre vil vi gerne kunne se cupcakes, som nok skal hentes i order_details-tabellen.
 
     public static List<Cupcake> getAllCupcakesPerOrder(int orderId, ConnectionPool connectionPool) throws DatabaseException{
-        List<Cupcake> orderDetails = null;
+        List<Cupcake> orderDetails = new ArrayList<>();
         String sql = "select * from order_details where order_id = ?";
         try (
                 Connection connection = connectionPool.getConnection();
@@ -45,18 +45,19 @@ public class OrderMapper {
         )
         {
             preparedStatement.setInt(1, orderId);
-            ResultSet rs = preparedStatement.executeQuery(sql);
+            ResultSet rs = preparedStatement.executeQuery();
             while (rs.next())
             {
                 int toppingId = rs.getInt("topping_id");
                 int bottomId = rs.getInt("bottom_id");
-                int price = rs.getInt("price");
+                int price = rs.getInt("total_price");
                 int amount = rs.getInt("quantity");
 
                 Topping topping = CupcakeMapper.getToppingById(toppingId,connectionPool);
                 Bottom bottom = CupcakeMapper.getBottomById(bottomId,connectionPool);
 
-                orderDetails.add(new Cupcake(topping,bottom,price,amount));
+                Cupcake cupcake = new Cupcake(topping,bottom,price,amount);
+                orderDetails.add(cupcake);
             }
         }
         catch (SQLException e)
