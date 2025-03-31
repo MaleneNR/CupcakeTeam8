@@ -52,12 +52,8 @@ main {
 }
 
 .link{
-    position: absolute;
-    right: 26%;
-    top: 15%;
     color: #e649fc;
     margin-left: 60%;
-
 
 
 }
@@ -65,7 +61,7 @@ main {
 .login-bar{
 
     background-color: #fdddfc;
-    height: 50px;
+    height: 40px;
     border-radius: 5px;
     margin-bottom: 20px;
     width: 80%;
@@ -101,20 +97,6 @@ main {
     border-radius: 20px;
     font-size: 1rem;
     cursor: pointer;
-}
-
-.buttonkurv{
-    left: 75%;
-    top: 15%;
-    position: absolute;
-    padding: 5px 15px;
-    background-color: #c057a1;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-size: 1rem;
-    cursor: pointer;
-
 }
 
 .cart{
@@ -154,7 +136,6 @@ main {
 
 .button-order {
     margin-left: 70%;
-    margin-top: 30%;
 
     padding: 10px 25px;
     background-color: #c057a1;
@@ -163,20 +144,6 @@ main {
     border-radius: 20px;
     font-size: 1rem;
     cursor: pointer;
-}
-
-.deletebutton{
-
-   position: absolute;
-    top: 20%;
-    left: 75%;
-    background-color: #c057a1;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    padding: 10px 25px;
 }
 
 
