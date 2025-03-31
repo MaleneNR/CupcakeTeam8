@@ -23,17 +23,33 @@
 
 
 <div class="kurv-side">
-
+    <form method="post" action="/order_here">
 
     <div class="button-group">
-        <button class="button-order" type="submit" formaction="/loginCustomer">Order here</button>
+        <button class="button-order" type="submit" formaction="/order_here">Order here</button>
     </div>
     </form>
 </div>
 
 </div>
 
+<table>
+    <thead>
+    <tr>
+        <th>Item</th>
+        <th>Action</th>
 
+    </tr>
+
+    </thead>
+    <tbody>
+    <tr th:each="basket: ${currentBasket}">
+        <td th:text="${basket.getBasket().get(0)}"></td>
+    </tr>
+    </tbody>
+
+
+</table>
 
 </body>
 </html>

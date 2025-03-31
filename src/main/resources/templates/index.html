@@ -19,12 +19,16 @@
 
 <main>
     <div class="login-bar">
-        <div>
-            <a href="#" class="link">Login/Opret bruger</a>
-            <div class="kurv img">
-            <img src="../public/images/kurv.png" alt="Indkøbskurv" class="cart">
+        <form method="post" action="/showBasket">
+            <div>
+                <a href="#" class="link">Login/Opret bruger</a>
+                <div class="kurv img">
+                    <img src="../public/images/kurv.png" alt="Indkøbskurv" class="cart">
+
+                </div>
             </div>
-        </div>
+            <button class="button" formaction="\showBasket" type="submit">Kurv test</button>
+        </form>
     </div>
 
     <div class="welcome">
@@ -36,12 +40,14 @@
                 <select id="bottom" name="bottom">
                     <option>Vælg bund</option>
                     <option th:each="bottom: ${bottomList}"
+                            th:value="${bottom.bottomId}"
                             th:text="${bottom.bottom}">
                     </option>
                 </select>
                 <select id="topping" name="topping">
                     <option>Vælg topping</option>
                     <option th:each="topping: ${toppingsList}"
+                            th:value="${topping.toppingId}"
                             th:text="${topping.topping}">
                     </option>
                 </select>
@@ -54,7 +60,7 @@
                     <option>5</option>
                     <option>6</option>
                 </select>
-                <button class="button" type="submit">Tilføj til kurv</button>
+                <button class="button" formaction="\add_order" type="submit">Tilføj til kurv</button>
             </form>
         </div>
 

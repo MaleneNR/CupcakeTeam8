@@ -1,9 +1,13 @@
 package app.controllers;
 
+import app.entities.Basket;
+import app.entities.Bottom;
+import app.entities.Cupcake;
 import app.entities.Topping;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.CupcakeMapper;
+import app.persistence.OrderMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -16,28 +20,27 @@ public class OrderController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool){
         app.post("/add_order", ctx -> addOrder(ctx, connectionPool));
+        app.post("/order_here", ctx -> order(ctx, connectionPool));
 
     }
 
     private static void addOrder(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
-    //skal tilføje en ordre
-        // vi skal have bund, topping og amount som parametre
-            //skal proppes i en form for liste så de gemmes
-            // toppings = CupcakeMapper.getAllToppings(connectionPool);
+            Bottom bottom = CupcakeMapper.getBottomById(Integer.parseInt(ctx.formParam("bottom")), connectionPool);
+            Topping topping = CupcakeMapper.getToppingById(Integer.parseInt(ctx.formParam("topping")), connectionPool);
+            int amount = Integer.parseInt(ctx.formParam("amount"));
 
-            //TODO lav HTML FORM
-                //Der gemmer dropdown svar
-                //Når der trykkes på knap (tilføj kurv)
-                //Så skal der sendes en post, der rendere til en action som peger på denne function addOrder.
-            String bottom = ctx.formParam("bottom");
-            String topping = ctx.formParam("topping");
-            String amount = ctx.formParam("amount");
-
-            if (bottom == null || topping == null || amount == null) {
+            if (bottom == null || topping == null || amount == 0) { //TODO tjek om amount == 0 overhovedet hjælper.
                 ctx.status(400).result("Missing required fields.");
                 return;
             }
 
+            Cupcake cupcake = new Cupcake(topping, bottom, bottom.getPrice()+ topping.getPrice(), amount);
+            Basket currentBasket = ctx.sessionAttribute("currentBasket");
+            currentBasket.getBasket().add(cupcake);
+            ctx.sessionAttribute("currentBasket", currentBasket);
+
+            //Går tilbage til index siden, efter der er tilføjet til kurv.
+            ctx.render("index.html");
 
 
     }
@@ -50,11 +53,17 @@ public class OrderController {
 
     }
 
-    private static void delete(){
+    private static void delete(Context ctx, ConnectionPool connectionPool) throws DatabaseException{
 
     }
 
-    private static void order(){
+    private static void order(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+        OrderMapper.addOrder(ctx.sessionAttribute("currentBasket"), connectionPool);
+        Basket currentBasket = ctx.sessionAttribute("currentBasket");
+
+        currentBasket.getBasket().clear();                      //Fjerner alle items i kurven, efter der er blevet bestilt.
+        ctx.sessionAttribute("currentBasket", currentBasket);   //Her opdateres currentBasket i ctx sessionen.
+        ctx.render("index.html");                       //Går tilbage til index siden, så der kan bestilles igen.
 
     }
 
