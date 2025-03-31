@@ -33,7 +33,7 @@ public class Main {
 
         // Routing
 
-        app.get("/", ctx ->  ctx.render("login.html"));
+        app.get("/", ctx ->  ctx.render("index.html"));
         UserController.addRoutes(app, connectionPool);
         OrderController.addRoutes(app, connectionPool);
         AdminController.addRoutes(app, connectionPool);
