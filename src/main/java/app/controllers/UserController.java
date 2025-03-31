@@ -23,17 +23,24 @@ public class UserController{
             app.get("/createuser", ctx -> ctx.render("createuser.html"));
             app.post("/createuser", ctx -> createUser(ctx, connectionPool));
             app.post("/showBasket", ctx -> ctx.render("basket.html"));
+            app.post("/loginorcreateuser", ctx -> ctx.render("loginOrCreateUser.html"));
+
     }
     private static void createUser(Context ctx, ConnectionPool connectionPool){
         String username = ctx.formParam("email");
-        String password1 = ctx.formParam("password1");
-        String password2 = ctx.formParam("password2");
+        //String password1 = ctx.formParam("password1"); //TODO Hvor bliver pass1 og 2 oprettet henne?
+        //String password2 = ctx.formParam("password2");
+        String password = ctx.formParam("password");
+        String name = ctx.formParam("navn");
+        String password1 = password; //Skal fjernes hvis vi skal have password validering når der oprettes.
+        String password2 = password;
+
 
         //Validerer password
-        if(password1.equals(password2)){
+        if(password1.equals(password2)){ //TODO Skal tilføjes i html hvis det skal bruges.
 
             try{
-                UserMapper.createUser(username,password1,connectionPool);
+                UserMapper.createUser(username,password,connectionPool);
                 ctx.attribute("message", "Du er hermed oprettet med brugernavn: "+ username+ ". Du skal nu logge på");
                 ctx.render("login.html");}
             catch (DatabaseException e) {
@@ -60,12 +67,15 @@ public class UserController{
             ctx.attribute("bottomList", bottomList);
 
             ctx.sessionAttribute("currentUser", user);
+
+            List<Cupcake> cupcakes = new ArrayList<>();
+            Basket basket = new Basket(cupcakes, username);
+            ctx.sessionAttribute("currentBasket", basket);
+
             if(user.getRole() == 1){
                 loginAdmin(ctx,connectionPool);
             } else{
-                List<Cupcake> cupcakes = new ArrayList<>();
-                Basket basket = new Basket(cupcakes, username);
-                ctx.sessionAttribute("currentBasket", basket);
+
                 ctx.render("index.html");
             }
 

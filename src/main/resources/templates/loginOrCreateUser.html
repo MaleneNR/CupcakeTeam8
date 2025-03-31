@@ -26,10 +26,14 @@
     <div class="form-container">
         <form method="post">
             <div>
-                <input class="button" type="email" name="email" placeholder="Login" required formaction="/loginCustomer" />
-            </div>
-            <div></div>
-            <input class="button" type="password" name="password" placeholder="Create user" required />
+                <form method="post" action="/login">
+
+                    <button class="button" formaction="login" type="submit">login</button>
+                </form>
+                <form method="get" action="/createuser">
+
+                    <button class="button" formaction="/createuser" type="submit">opret bruger</button>
+                </form>
     </div>
 
 

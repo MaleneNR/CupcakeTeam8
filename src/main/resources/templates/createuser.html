@@ -25,24 +25,23 @@
 
 <div class="login">
     <div class="form-container">
-        <form method="post">
+        <form method="post" action="/createuser">
             <div>
                 <input class="button" type="navn" name="navn" placeholder="Navn" required />
             </div>
             <div>
                 <input class="button" type="email" name="email" placeholder="Email" required />
             </div>
-            <div></div>
-            <input class="button" type="password" name="password" placeholder="Password" required />
-    </div>
+            <div>
+                <input class="button" type="password" name="password" placeholder="Password" required />
+            </div>
 
-    <div class="button-group">
-        <button class="button" type="submit" formaction="/loginCustomer">Opret nu</button>
+            <button class="button" formaction="/createuser" type="submit">Opret nu</button>
+        </form>
+
     </div>
-    </form>
 </div>
 
-</div>
 
 
 
