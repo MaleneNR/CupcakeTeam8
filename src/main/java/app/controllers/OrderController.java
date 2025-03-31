@@ -22,7 +22,6 @@ public class OrderController {
         app.post("/add_order", ctx -> addOrder(ctx, connectionPool));
         app.post("/order_here", ctx -> order(ctx, connectionPool));
         app.post("/deleteCupcake", ctx -> delete(ctx));
-
     }
 
     private static void addOrder(Context ctx, ConnectionPool connectionPool) throws DatabaseException {

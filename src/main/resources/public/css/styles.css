@@ -233,7 +233,7 @@ main {
 
 }
 
-.buttonDelete {
+.buttonTable {
     padding: 10px 25px;
     background-color: #c057a1;
     color: white;
@@ -253,6 +253,12 @@ main {
     color: #b43ca0;
 }
 
+/***** Footer *****/
+footer div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 
 
 

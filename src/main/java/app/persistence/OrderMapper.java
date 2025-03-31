@@ -159,10 +159,39 @@ public class OrderMapper {
         return allOrderDetailsAdded;
     }
 
+    public static boolean deleteOrderDetailsAndOrder(int orderId, ConnectionPool connectionPool) throws DatabaseException
+    {
+        boolean deleted = false;
+        String sql = "delete from order_details where order_id = ?";
+
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        )
+        {
+            ps.setInt(1, orderId);
+            int rowsAffected = -1;
+            rowsAffected = ps.executeUpdate();
+            if (rowsAffected != -1){
+                deleted = true;
+                delete(orderId,connectionPool);
+            }else
+            {
+                throw new DatabaseException("Fejl i sletning af en ordredetajler");
+            }
+
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Fejl ved sletning af en ordre", e.getMessage());
+        }
+        return deleted;
+    }
+
     public static boolean delete(int orderId, ConnectionPool connectionPool) throws DatabaseException
     {
         boolean deleted = false;
-        String sql = "delete from order where order_id = ?";
+        String sql = "delete from orders where order_id = ?";
 
         try (
                 Connection connection = connectionPool.getConnection();
