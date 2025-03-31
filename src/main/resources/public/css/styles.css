@@ -202,7 +202,27 @@ main {
 .orders th, .orders td {
     padding: 10px 15px;
     border-bottom: 1px solid #ddd;
-    vertical-align: top;
+    vertical-align: center;
+}
+
+.buttonDelete {
+    padding: 10px 25px;
+    background-color: #c057a1;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    vertical-align: center;
+}
+
+
+/***** Title *****/
+.title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #b43ca0;
 }
 
 

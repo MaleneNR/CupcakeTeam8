@@ -21,6 +21,7 @@ public class OrderController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool){
         app.post("/add_order", ctx -> addOrder(ctx, connectionPool));
         app.post("/order_here", ctx -> order(ctx, connectionPool));
+        app.post("/deleteCupcake", ctx -> delete(ctx));
 
     }
 
@@ -39,6 +40,14 @@ public class OrderController {
             currentBasket.getBasket().add(cupcake);
             ctx.sessionAttribute("currentBasket", currentBasket);
 
+            //Toppings og bottoms sendes med igen, så man igen kan vælge
+        List<Topping> toppingsList = CupcakeMapper.getAllToppings(connectionPool);//henter list fra db
+        ctx.attribute("toppingsList", toppingsList);
+
+        List<Bottom> bottomList = CupcakeMapper.getAllBottoms(connectionPool);
+        ctx.attribute("bottomList", bottomList);
+
+
             //Går tilbage til index siden, efter der er tilføjet til kurv.
             ctx.render("index.html");
 
@@ -54,9 +63,9 @@ public class OrderController {
 
     }
 
-    private static void delete(Context ctx, ConnectionPool connectionPool) throws DatabaseException{
-
+    private static void delete(Context ctx){
         Basket currentBasket = ctx.sessionAttribute("currentBasket");
+        currentBasket.getBasket().size();
         int cupcakeIndex = Integer.parseInt(ctx.formParam("cupcakeIndex"));
 
         if (currentBasket == null || currentBasket.getBasket().isEmpty()) {
@@ -71,7 +80,7 @@ public class OrderController {
 
         currentBasket.getBasket().remove(cupcakeIndex);
         ctx.sessionAttribute("currentBasket", currentBasket);
-        ctx.render("index.html");
+        ctx.render("basket.html");
     }
 
 
