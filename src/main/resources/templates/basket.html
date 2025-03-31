@@ -23,31 +23,48 @@
 
 
 <div class="kurv-side">
+    <div class = "title">
+        <h1>Din indkøbskurv</h1>
+    </div>
+
     <form method="post" action="/order_here">
+        <table class="orders">
+            <thead>
+            <tr>
+                <th>Topping</th>
+                <th>Bottom</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                        <tr th:each="cupcake : ${session.currentBasket.basket}">
+                            <td th:text="${cupcake.topping}"></td>
+                            <td th:text="${cupcake.bottom}"></td>
+                            <td th:text="${cupcake.price}"></td>
+                            <td th:text="${cupcake.quantity}"></td>
+                            <td><form method="post" action="/deleteCupcake">
+                                <input type="hidden" name="cupcakeIndex" value="0">
+                                <button class="buttonDelete" type="submit" formaction="/deleteCupcake">Slet</button>
+                            </form></td>
+                        </tr>
+            </tr>
+            </tbody>
+        </table>
 
-        <div>
-            <button class="button-order" type="submit" formaction="/order_here">Order here</button>
-        </div>
+        <p th:if="${session.currentBasket == null or session.currentBasket.basket == null or session.currentBasket.basket.isEmpty()}">
+            Du har endnu ingen cupcakes i din indkøbskurv
+        </p>
+
+
+    <div class="button-group">
+        <button class="button-order" type="submit" formaction="/order_here">Order here</button>
+    </div>
 
     </form>
-    <form method="post" action="/delete">
-
-        <input type="hidden" name="cupcakeIndex" value="0">
-        <button class="deletebutton" type="submit" formaction="/delete">slet</button>
-    </form>
 </div>
-
-</div>
-
-
-<tbody>
-<tr th:each="basket: ${currentBasket}">
-    <td th:text="${basket.getBasket().get(0)}"></td>
-</tr>
-</tbody>
-
-
-</table>
 
 </body>
 </html>

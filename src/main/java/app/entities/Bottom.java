@@ -42,10 +42,6 @@ public class Bottom {
 
     @Override
     public String toString() {
-        return "Bottom{" +
-                "bottomId='" + bottomId + '\'' +
-                "bottom='" + bottom + '\'' +
-                ", price=" + price +
-                '}';
+        return bottom;
     }
 }

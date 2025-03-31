@@ -18,8 +18,7 @@ import java.util.ArrayList;
 public class UserController{
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool){
-            app.post("/loginCustomer", ctx -> loginCustomer(ctx, connectionPool));
-            app.post("/login", ctx -> loginAdmin(ctx, connectionPool));
+            app.post("/login", ctx -> login(ctx, connectionPool));
             app.get("/logout", ctx -> logout(ctx));
             app.get("/createuser", ctx -> ctx.render("createuser.html"));
             app.post("/createuser", ctx -> createUser(ctx, connectionPool));
@@ -47,7 +46,7 @@ public class UserController{
         }
     }
 
-    private static void loginCustomer(Context ctx, ConnectionPool connectionPool){
+    private static void login(Context ctx, ConnectionPool connectionPool){
         String username= ctx.formParam("email");
         String password = ctx.formParam("password");
         try {
@@ -61,12 +60,14 @@ public class UserController{
             ctx.attribute("bottomList", bottomList);
 
             ctx.sessionAttribute("currentUser", user);
-
-            List<Cupcake> cupcakes = new ArrayList<>();
-            Basket basket = new Basket(cupcakes, username);
-            ctx.sessionAttribute("currentBasket", basket);
-
-            ctx.render("index.html");
+            if(user.getRole() == 1){
+                loginAdmin(ctx,connectionPool);
+            } else{
+                List<Cupcake> cupcakes = new ArrayList<>();
+                Basket basket = new Basket(cupcakes, username);
+                ctx.sessionAttribute("currentBasket", basket);
+                ctx.render("index.html");
+            }
 
         } catch (DatabaseException e) {
             ctx.attribute("message", e.getMessage());
@@ -82,11 +83,7 @@ public class UserController{
 
 
     private static void loginAdmin(Context ctx, ConnectionPool connectionPool){
-        String username= ctx.formParam("email");
-        String password = ctx.formParam("password");
         try {
-            User user = UserMapper.login(username, password, connectionPool);
-            ctx.sessionAttribute("currentUser", user);
             List<Order> orderList = OrderMapper.getAllOrders(connectionPool);
             ctx.attribute("orderList", orderList);
             ctx.render("admin.html");
@@ -97,4 +94,5 @@ public class UserController{
         }
 
     }
+
 }

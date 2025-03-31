@@ -5,19 +5,19 @@ import java.util.List;
 
 public class Order {
     private int orderId;
-    private List<Cupcake> order;
+    private List<Cupcake> cupcakes;
     private String email;
     private LocalDate date;
 
-    public Order(int orderId, List<Cupcake> order, String email, LocalDate date) {
+    public Order(int orderId, List<Cupcake> cupcakes, String email, LocalDate date) {
         this.orderId = orderId;
-        this.order = order;
+        this.cupcakes = cupcakes;
         this.email = email;
         this.date = date;
     }
 
-    public Order(List<Cupcake> order, String email, LocalDate date) {
-        this.order = order;
+    public Order(List<Cupcake> cupcakes, String email, LocalDate date) {
+        this.cupcakes = cupcakes;
         this.email = email;
         this.date = date;
     }
@@ -46,19 +46,19 @@ public class Order {
         this.date = date;
     }
 
-    public List<Cupcake> getOrder() {
-        return order;
+    public List<Cupcake> getCupcakes() {
+        return cupcakes;
     }
 
-    public void setOrder(List<Cupcake> order) {
-        this.order = order;
+    public void setCupcakes(List<Cupcake> cupcakes) {
+        this.cupcakes = cupcakes;
     }
 
     @Override
     public String toString() {
         return "Order{" +
                 "orderId=" + orderId +
-                ", order=" + order +
+                ", order=" + cupcakes +
                 ", email='" + email + '\'' +
                 ", date=" + date +
                 '}';

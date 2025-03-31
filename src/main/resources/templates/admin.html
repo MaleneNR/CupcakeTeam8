@@ -20,22 +20,36 @@
 
 
 
-
+<main>
 
 <div class="kurv-side">
+        <form method="post" action="/order_here">
+            <table class="orders">
+                <thead>
+                <tr>
+                    <th>Topping</th>
+                    <th>Bottom</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Iterér over cupcakes i kurven -->
+                <tr th:each="cupcake : ${session.currentBasket.basket}">
+                    <td th:text="${cupcake.topping}"></td>
+                    <td th:text="${cupcake.bottom}"></td>
+                    <td th:text="${cupcake.price}"></td>
+                    <td th:text="${cupcake.quantity}"></td>
+                </tr>
+                </tbody>
+            </table>
 
-
-    <div class="button-group">
-        <button class="button-order-admin" type="submit" formaction="/loginCustomer">Email sendt</button>
-        <button class="button-order" type="submit" formaction="/loginCustomer">Send email</button>
+            <div class="button-group">
+                <button class="button-order" type="submit">Order here</button>
+            </div>
+        </form>
     </div>
 
-    </form>
-</div>
-
-</div>
-
-
-
+</main>
 </body>
 </html>
