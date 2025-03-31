@@ -1,9 +1,6 @@
 package app.controllers;
 
-import app.entities.Basket;
-import app.entities.Bottom;
-import app.entities.Cupcake;
-import app.entities.Topping;
+import app.entities.*;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.CupcakeMapper;
@@ -88,10 +85,17 @@ public class OrderController {
     private static void order(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper.addOrder(ctx.sessionAttribute("currentBasket"), connectionPool);
         Basket currentBasket = ctx.sessionAttribute("currentBasket");
+        User currentUser = ctx.sessionAttribute("currentUser");
+        for (Cupcake cupcake : currentBasket.getBasket()) {
+            currentUser.setBalance(currentUser.getBalance() - (cupcake.getPrice() * cupcake.getQuantity()));
+        }
+
+        ctx.sessionAttribute("currentUser", currentUser); //Ved ikke om objectet skal opdateres i session igen, efter vi har opdateret dens balance attribute.
 
         currentBasket.getBasket().clear();                      //Fjerner alle items i kurven, efter der er blevet bestilt.
         ctx.sessionAttribute("currentBasket", currentBasket);   //Her opdateres currentBasket i ctx sessionen.
         ctx.render("index.html");                      //Går tilbage til index siden, så der kan bestilles igen.
+
 
     }
 
