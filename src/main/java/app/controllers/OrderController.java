@@ -51,11 +51,30 @@ public class OrderController {
 
     private static void editOrder(){
 
+
     }
 
     private static void delete(Context ctx, ConnectionPool connectionPool) throws DatabaseException{
 
+        Basket currentBasket = ctx.sessionAttribute("currentBasket");
+        int cupcakeIndex = Integer.parseInt(ctx.formParam("cupcakeIndex"));
+
+        if (currentBasket == null || currentBasket.getBasket().isEmpty()) {
+            ctx.status(400).result("Kurven er tom eller eksisterer ikke.");
+            return;
+        }
+
+        if (cupcakeIndex < 0 || cupcakeIndex >= currentBasket.getBasket().size()) {
+            ctx.status(400).result("Ugyldigt cupcake-indeks.");
+            return;
+        }
+
+        currentBasket.getBasket().remove(cupcakeIndex);
+        ctx.sessionAttribute("currentBasket", currentBasket);
+        ctx.render("index.html");
     }
+
+
 
     private static void order(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper.addOrder(ctx.sessionAttribute("currentBasket"), connectionPool);
