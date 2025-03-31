@@ -180,6 +180,34 @@ main {
 
 
 
+/***** Table Styling *****/
+.orders {
+    width: 100%;
+    max-width: 800px;
+    border-collapse: collapse;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+/***** Table Header *****/
+.orders thead {
+    background-color: #b43ca0;
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+.orders th, .orders td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+}
+
+
+
+
 
 
 

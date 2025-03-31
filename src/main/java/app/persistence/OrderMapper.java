@@ -7,7 +7,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class OrderMapper {
 
@@ -126,7 +125,7 @@ public class OrderMapper {
     private static Boolean addOrderDetails(Order order,ConnectionPool connectionPool) throws DatabaseException{
         Boolean allOrderDetailsAdded = false;
         int rowsAffected = 0;
-        List<Cupcake> cupcakes = order.getOrder();
+        List<Cupcake> cupcakes = order.getCupcakes();
         //For hver cupcake i listen fra parameteren basket inserter vi en row i vores database
         for(Cupcake c : cupcakes) {
             Topping topping = c.getTopping();
