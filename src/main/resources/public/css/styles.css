@@ -156,6 +156,20 @@ main {
     cursor: pointer;
 }
 
+.balance{
+    color: white;
+    display: flex;
+    justify-content: end;
+    padding-right: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+
+
+
+
+}
+
 
 .kurv-side {
 
