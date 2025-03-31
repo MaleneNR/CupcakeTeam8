@@ -20,12 +20,8 @@
 <main>
     <div class="login-bar">
         <form method="post" action="/showBasket">
-
-            <button class="buttonkurv" formaction="\showBasket" type="submit">Kurv test</button>
-        </form>
-        <form method="post" action="/loginorcreateuser">
-
-            <button class="buttonkurv" formaction="/loginorcreateuser" type="submit">login/opret bruger</button>
+            <a class="link" href="loginOrCreateUser.html" th:href="@{/loginorcreateuser}" type="submit">Login/opret bruger</a>
+            <button class="buttonkurv" formaction="\showBasket" type="submit">Gå til kurven</button>
         </form>
     </div>
 
@@ -68,7 +64,7 @@
 </main>
 <footer>
     <div>
-        <a th:if="${session.currentUser != null}" href="index.html" th:href="@{/logout}">Logout</a>
+        <a th:if="${session.currentUser != null}" href="index.html" th:value="" th:href="@{/logout}">Logout</a>
     </div>
 </footer>
 </body>

@@ -23,7 +23,7 @@ public class UserController{
             app.get("/createuser", ctx -> ctx.render("createuser.html"));
             app.post("/createuser", ctx -> createUser(ctx, connectionPool));
             app.post("/showBasket", ctx -> ctx.render("basket.html"));
-            app.post("/loginorcreateuser", ctx -> ctx.render("loginOrCreateUser.html"));
+            app.get("/loginorcreateuser", ctx -> ctx.render("loginOrCreateUser.html"));
 
     }
     private static void createUser(Context ctx, ConnectionPool connectionPool){
@@ -87,6 +87,8 @@ public class UserController{
     }
 
     private static void logout(Context ctx){
+        ctx.formParam("balance");
+
         ctx.req().getSession().invalidate();
         ctx.redirect("/");
     }

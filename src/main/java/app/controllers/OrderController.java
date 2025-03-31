@@ -36,7 +36,12 @@ public class OrderController {
             currentBasket.getBasket().add(cupcake);
             ctx.sessionAttribute("currentBasket", currentBasket);
 
-            //Toppings og bottoms sendes med igen, så man igen kan vælge
+            index(ctx,connectionPool);
+
+    }
+
+    public static void index(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+        //Toppings og bottoms sendes med igen, så man igen kan vælge
         List<Topping> toppingsList = CupcakeMapper.getAllToppings(connectionPool);//henter list fra db
         ctx.attribute("toppingsList", toppingsList);
 
@@ -44,20 +49,8 @@ public class OrderController {
         ctx.attribute("bottomList", bottomList);
 
 
-            //Går tilbage til index siden, efter der er tilføjet til kurv.
-            ctx.render("index.html");
-
-
-    }
-
-    private static void updateOrder(){
-
-    }
-
-    private static void editOrder(){
-
-
-
+        //Går tilbage til index siden, efter der er tilføjet til kurv.
+        ctx.render("index.html");
     }
 
     private static void delete(Context ctx){
