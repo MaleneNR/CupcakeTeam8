@@ -63,14 +63,11 @@ public class UserController{
             if(user.getRole() == 1){
                 loginAdmin(ctx,connectionPool);
             } else{
+                List<Cupcake> cupcakes = new ArrayList<>();
+                Basket basket = new Basket(cupcakes, username);
+                ctx.sessionAttribute("currentBasket", basket);
                 ctx.render("index.html");
             }
-
-            List<Cupcake> cupcakes = new ArrayList<>();
-            Basket basket = new Basket(cupcakes, username);
-            ctx.sessionAttribute("currentBasket", basket);
-
-            ctx.render("index.html");
 
         } catch (DatabaseException e) {
             ctx.attribute("message", e.getMessage());
