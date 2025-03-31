@@ -15,64 +15,55 @@
         <img src="../public/images/cupcakelogo.png" th:src="@{/images/cupcakelogo.png}"/>
 
     </div>
-
-
-
-
-
-
-
-
 </header>
 
 <main>
     <div class="login-bar">
-        <div>
-            <a href="#" class="link">Login/Opret bruger</a>
-            <div class="kurv img">
-            <img src="../public/images/kurv.png" alt="Indkøbskurv" class="cart">
-            </div>
-        </div>
-    </div>
+        <form method="post" action="/showBasket">
+            <div>
+                <a href="#" class="link">Login/Opret bruger</a>
+                <div class="kurv img">
+                    <img src="../public/images/kurv.png" alt="Indkøbskurv" class="cart">
 
+                </div>
+            </div>
+            <button class="button" formaction="\showBasket" type="submit">Kurv test</button>
+        </form>
+    </div>
 
     <div class="welcome">
         <h1>VELKOMMEN</h1>
         <p>Øens bedste cupcakes. Vælg og bestil her:</p>
         <div class="selectors">
-            <select>
-                <option>Vælg bund</option>
-                <option>Chocolate</option>
-                <option>Pistachio</option>
-                <option>Nutmeg</option>
-                <option>Almond</option>
-                <option>Vanilla</option>
-                <option>Banana (Glutenfree)</option>
-            </select>
-            <select>
-                <option>Vælg topping</option>
-                <option>Chocolate</option>
-                <option>Blueberry</option>
-                <option>Rasberry</option>
-                <option>Crispy</option>
-                <option>Strawberry</option>
-                <option>Rom/rasin</option>
-                <option>orange</option>
-                <option>Lemon</option>
-                <option>Blue chesse</option>
 
-            </select>
-            <select>
-                <option>Vælg antal</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-            </select>
+            <form method="post" action="/add_order">
+                <select id="bottom" name="bottom">
+                    <option>Vælg bund</option>
+                    <option th:each="bottom: ${bottomList}"
+                            th:value="${bottom.bottomId}"
+                            th:text="${bottom.bottom}">
+                    </option>
+                </select>
+                <select id="topping" name="topping">
+                    <option>Vælg topping</option>
+                    <option th:each="topping: ${toppingsList}"
+                            th:value="${topping.toppingId}"
+                            th:text="${topping.topping}">
+                    </option>
+                </select>
+                <select id="amount" name="amount">
+                    <option>Vælg antal</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                </select>
+                <button class="button" formaction="\add_order" type="submit">Tilføj til kurv</button>
+            </form>
         </div>
-        <button class="button">Tilføj til kurv</button>
+
     </div>
 
 
