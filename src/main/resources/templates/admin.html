@@ -52,10 +52,10 @@
                     </tr>
                 </table>
             </td>
-            <td><button type="submit" class="button">Done</button></td>
+            <td><button type="submit" class="buttonTable">Done</button></td>
             <td><form method="post" action="/deleteOrder">
                 <input type="hidden" name="orderid" th:value="${order.orderid}">
-                <button class="buttonDelete" type="submit" formaction="/deleteOrder">Slet ordre</button>
+                <button class="buttonTable" type="submit" formaction="/deleteOrder">Slet ordre</button>
             </form></td>
         </tr>
         </tbody>
