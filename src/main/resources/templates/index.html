@@ -68,5 +68,10 @@
 
 
 </main>
+<footer>
+    <div>
+        <a th:if="${session.currentUser != null}" href="index.html" th:href="@{/logout}">Logout</a>
+    </div>
+</footer>
 </body>
 </html>

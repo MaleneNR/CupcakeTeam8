@@ -252,6 +252,12 @@ main {
     color: #b43ca0;
 }
 
+/***** Footer *****/
+footer div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 
 
 
