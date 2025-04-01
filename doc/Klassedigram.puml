@@ -1,0 +1,123 @@
+@startuml
+'https://plantuml.com/class-diagram
+!pragma layout smetana
+
+class AdminController
+class OrderController
+class UserController
+class Basket
+class Bottom
+class Cupcake
+class Order
+class Topping
+class User
+class OrderMapper
+class CupcakeMapper
+class UserMapper
+
+class AdminController{
+ + addRoutes(Javalin app, Connectionpool connectionpool)
+ - void delteOrder(Context ctx, Connectionpool connectionpool)
+
+}
+class OrderController{
++ addRoutes(Javalin app, Connectionpool connectionpool)
+- void addOrder(Context ctx, Connectionpool connectionpool)
++ void index(Context ctx, Connectionpool connectionpool)
+- void delete(Context ctx)
+- void order(Context ctx, Connectionpool connectionpool)
+}
+
+class UserController{
++ addRoutes(Javalin app, Connectionpool connectionpool)
+- void createuser(Context ctx, Connectionpool connectionpool)
+- void login(Context ctx, Connectionpool connectionpool)
+- void logout(Context ctx,)
+- void loginAdmin(Context ctx, Connectionpool connectionpool)
+
+}
+
+class Basket{
+- List<Cupcake> basket
+- String userEmail
+
+}
+
+class Bottom{
+- int bottom-id
+- String bottom
+- int price
+}
+
+class Cupcake{
+- Topping topping
+- Bottom bottom
+- int price
+- int quantity
+}
+
+class Order{
+- int order-id
+- List<Cupcakes> cupcakes
+- String email
+- LocalDate date
+}
+
+class Topping{
+- int topping-id
+- String topping
+- int price
+}
+
+Class User{
+- String email
+- String password
+- int role
+- int balance
+}
+
+class CupcakeMapper{
++ List<Topping> getAllToppings(Connectionpool connectionpool)
++ List<Bottom> getAllBottoms(Connectionpool connectionpool)
++ Topping getToppingById(int toppingId, Connectionpool connectionpool)
++ Topping getBottomById(int bottomId, Connectionpool connectionpool)
+}
+
+class OrderMapper{
++ List<Order> getAllOrders(Connectionpool connectionpool)
++ List<Cupcakes> getAllCupcakesPerOrder(int order-id, Connectionpool connectionpool)
++ boolean addOrder(Bakset basket, Connectionpool connectionpool)
+- boolean addorderDetails(Order order, Connectionpool connectionpool)
++ bolólean deleteOrderDetailsAndOrder(int order-id, Connectionpool connectionpool)
++ boolean delete(int order-id, Connectionpool connectionpool)
++ Order getOrderById(int order-id, Connectionpool connectionpool)
++ void update(int order-id, int amount, Connectionpool connectionpool)
+
+}
+
+class UserMapper{
++ User login(String email, String password, Connectionpool connectionpool)
++ void createuser(String emai, String password, Connectionpool connectionpool)
++ void updateUserBalance(User user, Connectionpool connectionpool)
+}
+
+Cupcake *-- Topping
+Cupcake *-- Bottom
+Basket *-- Cupcake
+Order *-- Cupcake
+User *-- Basket
+User *-- Order
+
+
+OrderMapper -- CupcakeMapper
+AdminController -- OrderMapper
+OrderController -- CupcakeMapper
+OrderController -- OrderMapper
+OrderController -- UserMapper
+UserController -- UserMapper
+UserController -- CupcakeMapper
+
+
+
+
+@enduml
