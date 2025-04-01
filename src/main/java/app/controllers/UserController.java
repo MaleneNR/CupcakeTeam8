@@ -8,6 +8,7 @@ import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import app.persistence.OrderMapper;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +20,7 @@ public class UserController{
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool){
             app.post("/login", ctx -> login(ctx, connectionPool));
+            app.get("/loginPage", ctx -> ctx.render("login.html"));
             app.get("/logout", ctx -> logout(ctx));
             app.get("/createuser", ctx -> ctx.render("createuser.html"));
             app.post("/createuser", ctx -> createUser(ctx, connectionPool));
@@ -26,6 +28,7 @@ public class UserController{
             app.get("/loginorcreateuser", ctx -> ctx.render("loginOrCreateUser.html"));
 
     }
+
     private static void createUser(Context ctx, ConnectionPool connectionPool){
         String username = ctx.formParam("email");
         //String password1 = ctx.formParam("password1"); //TODO Hvor bliver pass1 og 2 oprettet henne?
@@ -87,8 +90,6 @@ public class UserController{
     }
 
     private static void logout(Context ctx){
-        ctx.formParam("balance");
-
         ctx.req().getSession().invalidate();
         ctx.redirect("/");
     }
