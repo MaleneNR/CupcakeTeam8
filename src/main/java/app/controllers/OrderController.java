@@ -24,6 +24,10 @@ public class OrderController {
     }
 
     private static void addOrder(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+        User user = ctx.sessionAttribute("currentUser");
+        if(user == null){
+            ctx.render("loginOrCreateUser.html");
+        } else {
             Bottom bottom = CupcakeMapper.getBottomById(Integer.parseInt(ctx.formParam("bottom")), connectionPool);
             Topping topping = CupcakeMapper.getToppingById(Integer.parseInt(ctx.formParam("topping")), connectionPool);
             int amount = Integer.parseInt(ctx.formParam("amount"));
@@ -33,12 +37,13 @@ public class OrderController {
                 return;
             }
 
-            Cupcake cupcake = new Cupcake(topping, bottom, bottom.getPrice()+ topping.getPrice(), amount);
+            Cupcake cupcake = new Cupcake(topping, bottom, bottom.getPrice() + topping.getPrice(), amount);
             Basket currentBasket = ctx.sessionAttribute("currentBasket");
             currentBasket.getBasket().add(cupcake);
             ctx.sessionAttribute("currentBasket", currentBasket);
 
-            index(ctx,connectionPool);
+            index(ctx, connectionPool);
+        }
     }
 
     public static void index(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
