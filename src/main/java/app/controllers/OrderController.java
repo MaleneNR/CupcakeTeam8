@@ -5,6 +5,7 @@ import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.CupcakeMapper;
 import app.persistence.OrderMapper;
+import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -36,7 +37,11 @@ public class OrderController {
             currentBasket.getBasket().add(cupcake);
             ctx.sessionAttribute("currentBasket", currentBasket);
 
-            //Toppings og bottoms sendes med igen, så man igen kan vælge
+            index(ctx,connectionPool);
+    }
+
+    public static void index(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+        //Toppings og bottoms sendes med igen, så man igen kan vælge
         List<Topping> toppingsList = CupcakeMapper.getAllToppings(connectionPool);//henter list fra db
         ctx.attribute("toppingsList", toppingsList);
 
@@ -44,20 +49,8 @@ public class OrderController {
         ctx.attribute("bottomList", bottomList);
 
 
-            //Går tilbage til index siden, efter der er tilføjet til kurv.
-            ctx.render("index.html");
-
-
-    }
-
-    private static void updateOrder(){
-
-    }
-
-    private static void editOrder(){
-
-
-
+        //Går tilbage til index siden, efter der er tilføjet til kurv.
+        ctx.render("index.html");
     }
 
     private static void delete(Context ctx){
@@ -83,14 +76,16 @@ public class OrderController {
 
 
     private static void order(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
-        OrderMapper.addOrder(ctx.sessionAttribute("currentBasket"), connectionPool);
         Basket currentBasket = ctx.sessionAttribute("currentBasket");
+        OrderMapper.addOrder(currentBasket, connectionPool);
         User currentUser = ctx.sessionAttribute("currentUser");
         for (Cupcake cupcake : currentBasket.getBasket()) {
             currentUser.setBalance(currentUser.getBalance() - (cupcake.getPrice() * cupcake.getQuantity()));
         }
 
         ctx.sessionAttribute("currentUser", currentUser); //Ved ikke om objectet skal opdateres i session igen, efter vi har opdateret dens balance attribute.
+
+        UserMapper.updateUserBalance(currentUser,connectionPool);
 
         currentBasket.getBasket().clear();                      //Fjerner alle items i kurven, efter der er blevet bestilt.
         ctx.sessionAttribute("currentBasket", currentBasket);   //Her opdateres currentBasket i ctx sessionen.
