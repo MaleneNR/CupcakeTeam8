@@ -17,6 +17,7 @@ public class OrderController {
     //TODO skal hentes fra order_details tabellen
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool){
+        app.get("/index", ctx -> index(ctx,connectionPool));
         app.post("/add_order", ctx -> addOrder(ctx, connectionPool));
         app.post("/order_here", ctx -> order(ctx, connectionPool));
         app.post("/deleteCupcake", ctx -> delete(ctx));
