@@ -89,7 +89,7 @@ public class OrderController {
 
         currentBasket.getBasket().clear();                      //Fjerner alle items i kurven, efter der er blevet bestilt.
         ctx.sessionAttribute("currentBasket", currentBasket);   //Her opdateres currentBasket i ctx sessionen.
-        ctx.render("index.html");                      //Går tilbage til index siden, så der kan bestilles igen.
+        index(ctx, connectionPool);                    //Går tilbage til index siden, så der kan bestilles igen.
 
 
     }
