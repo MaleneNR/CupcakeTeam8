@@ -104,7 +104,7 @@ main {
     border-radius: 20px;
     font-size: 1rem;
     cursor: pointer;
-    width: 20%;
+
 }
 
 .cart{
@@ -130,13 +130,8 @@ main {
     cursor: pointer;
     vertical-align: center;
 
-
-
-
-
-
-
 }
+
 
 
 /***** login side ******/
@@ -170,6 +165,21 @@ main {
     border-radius: 20px;
     font-size: 1rem;
     cursor: pointer;
+    width: 10%;
+
+}
+
+.button-order2 {
+    margin-left: 70%;
+    padding: 10px 25px;
+    background-color: #c057a1;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 5px;
+    width: 10%;
 }
 
 .balance{
