@@ -14,7 +14,7 @@ import java.util.List;
 
 public class OrderController {
 
-    //TODO skal hentes fra order_details tabellen
+    //henter fra order_details tabellen
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool){
         app.get("/index", ctx -> index(ctx,connectionPool));
@@ -32,7 +32,7 @@ public class OrderController {
             Topping topping = CupcakeMapper.getToppingById(Integer.parseInt(ctx.formParam("topping")), connectionPool);
             int amount = Integer.parseInt(ctx.formParam("amount"));
 
-            if (bottom == null || topping == null || amount == 0) { //TODO tjek om amount == 0 overhovedet hjælper.
+            if (bottom == null || topping == null || amount == 0) {
                 ctx.status(400).result("Missing required fields.");
                 return;
             }

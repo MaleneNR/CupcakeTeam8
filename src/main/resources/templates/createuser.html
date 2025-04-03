@@ -27,13 +27,13 @@
     <div class="form-container">
         <form method="post" action="/createuser">
             <div>
-                <input class="button" type="navn" name="navn" placeholder="Navn" required />
-            </div>
-            <div>
                 <input class="button" type="email" name="email" placeholder="Email" required />
             </div>
             <div>
-                <input class="button" type="password" name="password" placeholder="Password" required />
+                <input class="button" type="password" name="password1" placeholder="Indtast password" required />
+            </div>
+            <div>
+                <input class="button" type="password" name="password2" placeholder="Gentag password" required />
             </div>
 
             <button class="button" formaction="/createuser" type="submit">Opret nu</button>

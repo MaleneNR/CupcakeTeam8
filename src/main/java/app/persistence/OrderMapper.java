@@ -11,6 +11,7 @@ import java.util.List;
 public class OrderMapper {
 
     public static List<Order> getAllOrders(ConnectionPool connectionPool) throws DatabaseException {
+        //Der hentes alle ordre ind, og for hver ordre vil vi gerne kunne se cupcakes, som nok skal hentes i order_details-tabellen.
           List<Order> orderList = new ArrayList<>();
             String sql = "select * from orders";
 
@@ -33,7 +34,7 @@ public class OrderMapper {
                 throw new DatabaseException("Fejl!!!!", e.getMessage());
             }
             return orderList;
-        } //TODO: Der skal hentes alle ordre ind, og for hver ordre vil vi gerne kunne se cupcakes, som nok skal hentes i order_details-tabellen.
+        }
 
     public static List<Cupcake> getAllCupcakesPerOrder(int orderId, ConnectionPool connectionPool) throws DatabaseException{
         List<Cupcake> orderDetails = new ArrayList<>();

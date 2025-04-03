@@ -62,7 +62,7 @@ public class UserMapper {
             } catch (DatabaseException e) {
                 throw new RuntimeException(e);
             }
-            //TODO opret en kurv for user??
+
         }
     }
 

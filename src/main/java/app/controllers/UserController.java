@@ -31,19 +31,15 @@ public class UserController{
 
     private static void createUser(Context ctx, ConnectionPool connectionPool){
         String username = ctx.formParam("email");
-        //String password1 = ctx.formParam("password1"); //TODO Hvor bliver pass1 og 2 oprettet henne?
-        //String password2 = ctx.formParam("password2");
-        String password = ctx.formParam("password");
-        String name = ctx.formParam("navn");
-        String password1 = password; //Skal fjernes hvis vi skal have password validering når der oprettes.
-        String password2 = password;
+        String password1 = ctx.formParam("password1");
+        String password2 = ctx.formParam("password2");
+
 
 
         //Validerer password
-        if(password1.equals(password2)){ //TODO Skal tilføjes i html hvis det skal bruges.
-
+        if(password1.equals(password2)){
             try{
-                UserMapper.createUser(username,password,connectionPool);
+                UserMapper.createUser(username,password1,connectionPool);
                 ctx.attribute("message", "Du er hermed oprettet med brugernavn: "+ username+ ". Du skal nu logge på");
                 ctx.render("login.html");}
             catch (DatabaseException e) {
@@ -63,7 +59,7 @@ public class UserController{
             User user = UserMapper.login(username, password, connectionPool);
             //Når user bliver oprettet, bliver der også oprettet en basket.
 
-            List<Topping> toppingsList = CupcakeMapper.getAllToppings(connectionPool);//henter dropdown list fra db
+            List<Topping> toppingsList = CupcakeMapper.getAllToppings(connectionPool);//henter dropdown list via db
             ctx.attribute("toppingsList", toppingsList);
 
             List<Bottom> bottomList = CupcakeMapper.getAllBottoms(connectionPool);
