@@ -60,12 +60,12 @@ public class UserController{
             //Når user bliver oprettet, bliver der også oprettet en basket.
 
             List<Topping> toppingsList = CupcakeMapper.getAllToppings(connectionPool);//henter dropdown list via db
-            ctx.attribute("toppingsList", toppingsList);
+            ctx.attribute("toppingsList", toppingsList); //Oprettet som en attribtute i ctx, så den kan hentes i html koden.
 
             List<Bottom> bottomList = CupcakeMapper.getAllBottoms(connectionPool);
             ctx.attribute("bottomList", bottomList);
 
-            ctx.sessionAttribute("currentUser", user);
+            ctx.sessionAttribute("currentUser", user);//gemmer et objekt user under navnet "currentuser"
 
             List<Cupcake> cupcakes = new ArrayList<>();
             Basket basket = new Basket(cupcakes, username);

@@ -20,13 +20,14 @@ public class OrderMapper {
                     Statement statement = connection.createStatement();
             )
             {
-                ResultSet rsOrder = statement.executeQuery(sql);
-                while (rsOrder.next())
+                ResultSet rsOrder = statement.executeQuery(sql);//returnerer resultatet som et ResultSet objekt (rsOrder). indeholder alle rækkerne i orders tabellen
+                while (rsOrder.next())//er true indtil der ikke er flere rækker
                 {
-                    int id = rsOrder.getInt("order_id");
+                    int id = rsOrder.getInt("order_id"); //henter de forskellige kolonner som henholdsvis int, String og localdate
                     String email = rsOrder.getString("user_email");
                     LocalDate date = rsOrder.getDate("date").toLocalDate();
-                    orderList.add(new Order(id,getAllCupcakesPerOrder(id, connectionPool),email,date));
+                    orderList.add(new Order(id,getAllCupcakesPerOrder(id, connectionPool),email,date));//Opretter et nyt Order objekt med de indsamlede data (id, email, date).
+                    //Tilføjer det nye Order objekt til orderList.
                 }
             }
             catch (SQLException e)

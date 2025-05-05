@@ -23,7 +23,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Initializing Javalin and Jetty webserver
+        //Initializing Javalin and Jetty webserver
 
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public");
@@ -31,7 +31,7 @@ public class Main {
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
 
-        // Routing
+        //Routing
 
         app.get("/", ctx ->  OrderController.index(ctx,connectionPool));
         UserController.addRoutes(app, connectionPool);
